@@ -615,6 +615,34 @@ describe('runQuery', () => {
       expect(parsingDidStart.mock.calls.length).toBe(6);
       expect(validationDidStart.mock.calls.length).toBe(6);
     });
+
+    it("the documentStore never grows beyond its configured size", async () => {
+      expect.assertions(3);
+      // These two queries should be the same size.
+      const query1 = forgeLargerTestQuery(10, 'query1');
+      const query2 = forgeLargerTestQuery(10, 'query2');
+
+      // We're going to create a smaller-than-default cache which will be the
+      // size of the two smaller queries.  All three of these queries will never
+      // fit into this cache, so we'll roll through them all.
+      const maxSize =
+        approximateObjectSize(parse(query1)) +
+        approximateObjectSize(parse(query2));
+
+      const documentStore = new InMemoryLRUCache<DocumentNode>({
+        maxSize,
+        sizeCalculator: approximateObjectSize,
+      });
+
+      await runRequest({ documentStore, queryString: query1 });
+      // It should be the size of exactly half (both queries are the same!)
+      await expect(documentStore.getTotalSize()).resolves.toBe(maxSize / 2);
+      await runRequest({ documentStore, queryString: query2 });
+      // It should be the size of both combined.
+      await expect(documentStore.getTotalSize()).resolves.toBe(maxSize);
+      await runRequest({ documentStore, queryString: query1 });
+      await expect(documentStore.getTotalSize()).resolves.toBe(maxSize);
+    });
   });
 
   describe('async_hooks', () => {
