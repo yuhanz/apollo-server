@@ -21,7 +21,7 @@ type Product @key(fields: "upc") {
 
 In this example, the `@key` directive tells the Apollo query planner that a particular instance of `Product` can be fetched if you have its `upc`. Unlike Relay's [Node interface](https://facebook.github.io/relay/docs/en/graphql-server-specification.html#object-identification), keys can be any field (not just `ID`) and need not be globally unique. The ability to specify an entity's key makes it easier to build a data graph on top of existing APIs and services that already have a notion of a primary key, and encourages a more natural product-centric type definition.
 
-> Apollo supports multiple keys for an entity and composite keys (combination of fields). See [XXX ref] for more information on these advanced options.
+> Apollo supports multiple keys for an entity and composite keys (combination of fields). See [advanced features](/federation/advanced-features/) for more information on these options.
 
 ## Referencing external types
 
