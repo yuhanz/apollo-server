@@ -42,6 +42,7 @@ module.exports = {
             'federation/concerns',
             'federation/core-concepts',
             'federation/implementing',
+            'federation/advanced-features',
             'federation/errors',
             'federation/migrating-from-stitching',
             'federation/federation-spec',
