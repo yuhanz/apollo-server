@@ -67,7 +67,7 @@ As a result, services can't really be developed in a modular way, because every 
 
 ## Preparing for a migration
 
-Migrating services from schema stitching to a federated service model looks different for almost every case, but a few things are needed no matter the setup.
+The basic strategy for migrating from a stitching gateway to Apollo Federation is to start by making the underlying services federation-capable, then running a new federation gateway side-by-side with the stitching gateway as you make the transition. The essential steps are these:
 
 1. [Add federation support to all stitched services](#adding-federation-support-to-services)
 2. [Modifying the schema](#modifying-the-schema)
@@ -105,6 +105,7 @@ Before moving on, start up the service and ensure that it still works properly w
 
 ### Modifying the schema
 
+<!-- TODO link -->
 Next, you need to modify your existing schema to take advantage of federation. For more information on how to do this, check out [this guide](/federation/core-concepts/).
 
 ### Removing type extensions from the gateway
@@ -218,5 +219,3 @@ The `Reservation.user` resolver will receive an `id` (of the reservation) and a 
 ### Starting up a new Gateway
 
 Once a service is running independently, you can start up a gatway to sit in front of it. Even if you have only migrated one of your services, you can set up a gateway, and verify it is working. Once it is, you can expand, and keep adding services to your graph, until all services are moved over. Once that is done, the old stitching gateway can be retired.
-
-See [this guide](/federation/implementing/) for details on setting up a gateway.

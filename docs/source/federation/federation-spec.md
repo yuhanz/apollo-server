@@ -3,19 +3,14 @@ title: Federation specification
 description: For implementing federation in other languages
 ---
 
-<!--
-add disclaimer at the top that describes who this doc is for (language server maintainers)
--->
+> This content is meant for developers adding federation support to alternative GraphQL servers, and for anyone curious about the inner workings of federation. It is not needed to use or understand federation when using Apollo Server.
 
-**Disclaimer**: This page of the Apollo Federation docs is meant for GraphQL server integrations written in other languages to adopt federation in their libraries. It is not needed to use or understand federation when using Apollo Server
+To make a GraphQL service federation capable, it needs the following:
 
-In order for a GraphQL service to participate in federation, it will need to follow a few guidelines to allow for the development and use of Apollo Federation:
-
-* Implement the federation schema specification
-* Support fetching service capabilities
-* Allow for creation of stub types for references
-* Support resolving of requests for entities.
-
+* Implementation of the federation schema specification
+* Implementation of stub type generation for references
+* Implementation of request resolving for entities.
+* Support for fetching service capabilities
 
 ## Federation schema specification
 

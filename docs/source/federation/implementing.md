@@ -12,7 +12,7 @@ Collectively, federated services form a composed graph. This composition is done
 
 Let's take a look at how to get a federated graph up and running. We'll start by preparing an existing service for federation, followed by setting up a gateway in front of it.
 
-## Prepare a service
+## Defining a federated service
 
 Converting an existing schema into a federated service is the first step in buliding a federated graph. To do this, we'll use the `buildFederatedSchema()` function from the `@apollo/federation` package.
 
@@ -46,7 +46,7 @@ const server = new ApolloServer({
 });
 ```
 
-If you're already familiar with [setting up an Apollo Server](https://www.apollographql.com/docs/apollo-server/essentials/server#creating), this should look pretty familiar. If not, we recommend you get comfortable with this topic before jumping in to federation, as it's a bit more involved.
+If you're already familiar with [setting up an Apollo Server](https://www.apollographql.com/docs/apollo-server/essentials/server#creating), this should look pretty familiar. If not, we recommend you first take a moment to get comfortable with this topic before jumping in to federation.
 
 Now, let's see what this looks like as a federated service:
 
@@ -56,8 +56,7 @@ First step is to install the `@apollo/federation` package into the project:
 npm install @apollo/federation
 ```
 
-Then, convert the service into a federated one:
-
+Then just define the entity's key, implement its reference resolver, and call `buildFederatedSchema`:
 ```javascript{2,9,21-25,29}
 const { ApolloServer, gql } = require('apollo-server');
 const { buildFederatedSchema } = require('@apollo/federation');
@@ -94,7 +93,7 @@ const server = new ApolloServer({
 
 Now the service is running as a federated service and is ready to be composed into an overall federated graph!
 
-## Run a gateway
+## Running a gateway
 
 Now that we have a federation-ready service, we can get started with building our gateway. First let's install the gateway package and Apollo Server:
 
@@ -111,7 +110,7 @@ const { ApolloGateway } = require("@apollo/gateway");
 const gateway = new ApolloGateway({
   serviceList: [
     { name: 'accounts', url: 'http://localhost:4001' },
-    // more services hsere
+    // more services
   ],
 });
 
@@ -134,21 +133,19 @@ On startup, the gateway will fetch the service capabilities from the running ser
 
 > If there are any composition errors, the `gateway.load()` promise will be rejected with a list of [validation errors](/federation/errors/)
 
-### Gateway initialization
+#### Gateway initialization
 The call to `gateway.load()` returns a `Promise` which resolves to a `schema` and `executor`. These are intended to be passed into the constructor of `ApolloServer`.
 * The `schema` is the final, composed schema which represents all services.
 * The `executor` handles incoming requests. It uses the query planner to manage the various requests to our services that are necessary to construct the final result.
 
-## Execute distributed queries
-When a query is sent to the gateway, it converts it into an efficient query plan that coordinates requests sent to all the required downstream services. Often times this query plan is an invaluable way to understand what is happening at the gateway and explore how directives like `@requires` and `@provides` can help optimize query plans.
+## Inspecting query plans
 
-To make this eaiser, we have a new build of GraphQL Playground available for federated services. This is included by default as part of the `@apollo/gateway` package.
+When the gateway receives a new query, it generates a query plan that defines the sequence of requests the gateway will send to the necessary downstream services. Inspecting a query plan can be a helpful tool in understanding the gateway and exploring how directives like `@requires` and `@provides` can help optimize query plans. To make it easy to access query plans, the `@apollo/gateway` package includes a build of GraphQL Playground that adds a query plan inspector.
 
-This will add a new panel that you can open when running queries against your server. When you run a query, the gateway will include the query plan as part of the response to be shown in the viewer:
 
 ![playground](../images/playground.png)
 
-## Share context across services
+## Sharing context across services
 For existing services, it's likely that you've already implemented some form of authentication to convert a request into a user, or require some information passed to the service through request headers. `@apollo/gateway` makes it easy to reuse the context feature of Apollo Server to customize what information is sent to underlying services. Let's see what it looks like to pass user information along from the gateway to its services:
 
 ```javascript{9-18,27-36}
