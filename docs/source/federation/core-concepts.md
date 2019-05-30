@@ -71,7 +71,7 @@ The gateway will use the representation as an input to the service that owns the
 }
 ```
 
-> Reference resolvers are a special addition to Apollo Server that allow individual types to be resolved by a reference from another service. They are called when a query references an `entity` across service boundaries. To learn more about `__resolveReference`, see the [API docs](/api/apollo-federation).
+> Reference resolvers are a special addition to Apollo Server that allow individual types to be resolved by a reference from another service. They are called when a query references an `entity` across service boundaries. To learn more about `__resolveReference`, see the [API docs](/api/apollo-federation/).
 
 What is nice about this model is that we end up with a schema that represents a true subset of the overall graph, as opposed to a mangled schema with foreign key fields like `productID`. Ultimately, this means clients can write queries like this without having to ask for special fields or make additional requests to other services.
 
