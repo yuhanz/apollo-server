@@ -105,7 +105,6 @@ Before moving on, start up the service and ensure that it still works properly w
 
 ### Modifying the schema
 
-<!-- TODO link -->
 Next, you need to modify your existing schema to take advantage of federation. For more information on how to do this, check out [this guide](/federation/core-concepts/).
 
 ### Removing type extensions from the gateway
