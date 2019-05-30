@@ -37,6 +37,15 @@ module.exports = {
             'features/health-checks',
             'features/file-uploads',
           ],
+          Federation: [
+            'federation/introduction',
+            'federation/concerns',
+            'federation/core-concepts',
+            'federation/implementing',
+            'federation/errors',
+            'federation/migrating-from-stitching',
+            'federation/federation-spec',
+          ],
           // 'Schema stitching': [
           //   'features/schema-stitching',
           //   'features/remote-schemas',
@@ -51,7 +60,12 @@ module.exports = {
             'deployment/netlify',
             'deployment/azure-functions',
           ],
-          'API Reference': ['api/apollo-server', 'api/graphql-tools'],
+          'API Reference': [
+            'api/apollo-server',
+            'api/apollo-federation',
+            'api/apollo-gateway',
+            'api/graphql-tools',
+          ],
           Migration: [
             'migration-two-dot',
             'migration-engine',
