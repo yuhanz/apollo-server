@@ -1068,13 +1068,9 @@ export default (createApp: CreateAppFunc, destroyApp?: DestroyAppFunc) => {
     describe('request pipeline plugins', () => {
       describe('lifecycle hooks', () => {
         it('calls serverWillStart before serving a request', async () => {
-          // We'll use this eventually-assigned function to programmatically
-          // resolve the `serverWillStart` event.
-          // let resolveServerWillStart: Function;
+          expect.assertions(1);
 
-          // We'll use this mocked function to determine the order in which
-          // the events we're expecting to happen actually occur and validate
-          // those expectations in various stages of this test.
+          // We'll use this mocked function to ensure proper ordering of events.
           const fn = jest.fn();
 
           // We want this to create the app as fast as `createApp` will allow.
@@ -1088,22 +1084,22 @@ export default (createApp: CreateAppFunc, destroyApp?: DestroyAppFunc) => {
                 {
                   serverWillStart() {
                     fn('zero');
+
+                    // By returning a promise, we should be able to hold-up
+                    // server startup.  By using a timeout to resolve it, we
+                    // should automatically resolve it on the next tick, while
+                    // the rest of the code below proceeds.
                     return new Promise(resolve => {
-                      // resolveServerWillStart = () => {
-                      fn('one');
-                      resolve();
-                      // };
+                      setTimeout(() => {
+                        fn('one');
+                        resolve();
+                      }, 0);
                     });
                   },
                 },
               ],
             },
           });
-
-          // Make sure that things were called in the expected order.
-          // expect(fn.mock.calls).toEqual([['zero']]);
-
-          // resolveServerWillStart();
 
           // Account for the fact that `createApp` might return a Promise,
           // and might not, depending on the integration's implementation of
@@ -1127,8 +1123,6 @@ export default (createApp: CreateAppFunc, destroyApp?: DestroyAppFunc) => {
               return res;
             });
 
-          // Ensure the request has not gone through.
-          // expect(fn.mock.calls).toEqual([['zero'], ['one']]);
 
           // Now, wait for the request to finish.
           await res;
