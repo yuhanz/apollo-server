@@ -8,6 +8,7 @@ import {
   DocumentNode,
   GraphQLError,
 } from 'graphql';
+import { Trace } from 'apollo-engine-reporting-protobuf';
 
 // This seems like it could live in this package too.
 import { KeyValueCache } from 'apollo-server-caching';
@@ -47,11 +48,14 @@ export interface GraphQLResponse {
 }
 
 export interface GraphQLRequestMetrics {
+  captureTraces?: boolean;
   persistedQueryHit?: boolean;
   persistedQueryRegister?: boolean;
   responseCacheHit?: boolean;
   forbiddenOperation?: boolean;
   registeredOperation?: boolean;
+  startHrTime?: [number, number];
+  queryPlanTrace?: Trace.QueryPlanNode;
 }
 
 export interface GraphQLRequestContext<TContext = Record<string, any>> {

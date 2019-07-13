@@ -295,7 +295,7 @@ export class EngineReportingExtension<TContext = any>
     if (typeof id === 'number') {
       node.index = id;
     } else {
-      node.fieldName = id;
+      node.responseName = id;
     }
     this.nodes.set(responsePathAsString(path), node);
     const parentNode = this.ensureParentNode(path);

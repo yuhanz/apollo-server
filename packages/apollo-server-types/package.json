@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "apollo-server-caching": "file:../apollo-server-caching",
-    "apollo-server-env": "file:../apollo-server-env"
+    "apollo-server-env": "file:../apollo-server-env",
+    "apollo-engine-reporting-protobuf": "file:../apollo-engine-reporting-protobuf"
   },
   "devDependencies": {},
   "peerDependencies": {
