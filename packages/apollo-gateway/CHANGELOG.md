@@ -2,10 +2,11 @@
 
 ### vNEXT
 
+* Optimize buildQueryPlan when two FetchGroups are on the same service [#3135](https://github.com/apollographql/apollo-server/pull/3135)
+
 # v0.8.2
 
 * Handle `null` @requires selections correctly during execution [#3138](https://github.com/apollographql/apollo-server/pull/3138)
-
 
 # v0.6.13
 
