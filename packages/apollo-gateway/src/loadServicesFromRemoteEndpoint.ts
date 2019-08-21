@@ -37,7 +37,7 @@ export async function getServiceDefinitionsFromRemoteEndpoint({
       })
         .then(res => res.json())
         .then(({ data, errors }: GraphQLExecutionResult) => {
-          if (data && !errors) {
+          if (data && (errors || []).length === 0) {
             const typeDefs = data._service.sdl as string;
             const previousDefinition = serviceDefinitionMap.get(service.name);
             // this lets us know if any downstream service has changed
